@@ -8,19 +8,14 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              nope
  * @since             1.0.0
  * @package           Gw2api
  *
  * @wordpress-plugin
  * Plugin Name:       Guild Wars 2 API
- * Plugin URI:        no
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            Tiny Taimi
- * Author URI:        nope
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       gw2api
  * Domain Path:       /languages
  */
