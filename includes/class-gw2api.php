@@ -58,6 +58,15 @@ class Gw2api {
 	protected $version;
 
 	/**
+	 * The GW2 API endpoint
+	 * 
+	 * @since	1.0.0
+	 * @access	protected
+	 * @var		GW2Api	$api	The GW2Treasures API plugin
+	 */
+	protected $api;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -122,7 +131,15 @@ class Gw2api {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-gw2api-public.php';
 
+		/**
+		 * Include vendor items
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+
 		$this->loader = new Gw2api_Loader();
+
+		// Create new GW2Api instance
+		$this->api = new \GW2Treasures\GW2Api\GW2Api();
 
 	}
 
@@ -152,7 +169,7 @@ class Gw2api {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Gw2api_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Gw2api_Admin( $this->get_plugin_name(), $this->get_version(), $this->get_api() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -178,7 +195,7 @@ class Gw2api {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Gw2api_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Gw2api_Public( $this->get_plugin_name(), $this->get_version(), $this->get_api() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -223,6 +240,16 @@ class Gw2api {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * Retrieve the API instance
+	 * 
+	 * @since	1.0.0
+	 * @return	GW2Api
+	 */
+	public function get_api() {
+		return $this->api;
 	}
 
 }
