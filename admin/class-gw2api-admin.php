@@ -109,7 +109,29 @@ class Gw2api_Admin {
 			array( 'label_for' => $this->plugin_name . '_key' )
 		);
 
-		register_setting( $this->plugin_name, $this->plugin_name . '_key', 'string' );
+		register_setting( $this->plugin_name, $this->plugin_name . '_key', array( $this, $this->plugin_name . '_validate_key' ) );
+	}
+
+	/**
+	 * Validate GW2 API key
+	 * 
+	 * @since	1.0.0
+	 */
+	public function gw2api_validate_key( $key ) {
+		# key format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+		$format = '/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{20}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}/';
+		
+		if( empty( $key ) || preg_match( $format, $key ) ) {
+			return sanitize_text_field( $key );
+		} else {
+			add_settings_error(
+				$this->plugin_name . '_key',
+				'validationError',
+				'Invalid API key',
+				'error'
+			);
+		}
+
 	}
 
 	/**
